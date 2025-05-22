@@ -32,10 +32,10 @@
 				try {
 					const weather = await getCurrentWeather(coords.latitude, coords.longitude, "imperial", "en");
 					weatherState.result = {
-						name: weather.name,
-						temp: weather.main.temp,
-						conditions: weather.weather[0].description,
-						icon: weather.weather[0].icon
+						name: "Monticello",
+						temp: weather.current.temp,
+						conditions: weather.current.weather[0].description,
+						icon: weather.current.weather[0].icon
 					};
 					weatherState.full = weather;
 				} catch {

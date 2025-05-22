@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "aeae39f3-bb36-4d4f-b0d6-5feb9f6d4037",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "48be91e9-e24c-4a73-bacb-56afea642c33",
+  "prevId": "aeae39f3-bb36-4d4f-b0d6-5feb9f6d4037",
   "tables": {
     "chores": {
       "name": "chores",
@@ -180,7 +180,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": false
+          "default": 0
         },
         "recurrence_rule": {
           "name": "recurrence_rule",
@@ -407,7 +407,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": false
+          "default": 0
         },
         "created_by": {
           "name": "created_by",
@@ -533,7 +533,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": false
+          "default": 0
         },
         "recurrence_rule": {
           "name": "recurrence_rule",

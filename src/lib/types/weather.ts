@@ -1,43 +1,16 @@
-export interface CoordinatesByZipCode {
-  zip: string;
-  name: string;
-  lat: number;
-  lon: number;
-  country: string;
-}
-
-export interface CoordinatesByLocationName {
-  name: string;
-  local_names: Record<string, string>;
-  lat: number;
-  lon: number;
-  country: string;
-  state: string;
-}
-
 export interface WeatherResponse {
-  coord: Coord;
-  weather: Weather[];
-  base: string;
-  main: Main;
-  visibility: number;
-  wind: Wind;
-  rain?: Rain;
-  snow?: Snow;
-  clouds: Clouds;
-  dt: number;
-  sys: Sys;
-  timezone: number;
-  id: number;
-  name: string;
-  cod: number;
-}
-
-export interface Coord {
-  lon: number;
   lat: number;
+  lon: number;
+  timezone: string;
+  timezone_offset: number;
+  current: CurrentWeather;
+  minutely?: MinutelyWeather[];
+  hourly?: HourlyWeather[];
+  daily?: DailyWeather[];
+  alerts?: WeatherAlert[];
 }
 
+// Shared interfaces
 export interface Weather {
   id: number;
   main: string;
@@ -45,39 +18,100 @@ export interface Weather {
   icon: string;
 }
 
-export interface Main {
+export interface Precipitation {
+  '1h': number;
+}
+
+// Current
+export interface CurrentWeather {
+  dt: number;
+  sunrise?: number;
+  sunset?: number;
   temp: number;
   feels_like: number;
-  temp_min: number;
-  temp_max: number;
   pressure: number;
   humidity: number;
-  sea_level?: number;
-  grnd_level?: number;
+  dew_point: number;
+  uvi: number;
+  clouds: number;
+  visibility: number;
+  wind_speed: number;
+  wind_gust?: number;
+  wind_deg: number;
+  rain?: Precipitation;
+  snow?: Precipitation;
+  weather: Weather[];
 }
 
-export interface Wind {
-  speed: number;
-  deg: number;
-  gust?: number;
+// Minutely
+export interface MinutelyWeather {
+  dt: number;
+  precipitation: number;
 }
 
-export interface Rain {
-  "1h"?: number;
+// Hourly
+export interface HourlyWeather {
+  dt: number;
+  temp: number;
+  feels_like: number;
+  pressure: number;
+  humidity: number;
+  dew_point: number;
+  uvi: number;
+  clouds: number;
+  visibility: number;
+  wind_speed: number;
+  wind_gust?: number;
+  wind_deg: number;
+  pop: number;
+  rain?: Precipitation;
+  snow?: Precipitation;
+  weather: Weather[];
 }
 
-export interface Snow {
-  "1h"?: number;
+// Daily
+export interface DailyWeather {
+  dt: number;
+  sunrise?: number;
+  sunset?: number;
+  moonrise: number;
+  moonset: number;
+  moon_phase: number;
+  summary?: string; // unofficial field not always present
+  temp: {
+    morn: number;
+    day: number;
+    eve: number;
+    night: number;
+    min: number;
+    max: number;
+  };
+  feels_like: {
+    morn: number;
+    day: number;
+    eve: number;
+    night: number;
+  };
+  pressure: number;
+  humidity: number;
+  dew_point: number;
+  wind_speed: number;
+  wind_gust?: number;
+  wind_deg: number;
+  clouds: number;
+  uvi: number;
+  pop: number;
+  rain?: number;
+  snow?: number;
+  weather: Weather[];
 }
 
-export interface Clouds {
-  all: number;
-}
-
-export interface Sys {
-  type: number;
-  id: number;
-  country: string;
-  sunrise: number;
-  sunset: number;
+// Alerts
+export interface WeatherAlert {
+  sender_name: string;
+  event: string;
+  start: number;
+  end: number;
+  description: string;
+  tags: string[];
 }

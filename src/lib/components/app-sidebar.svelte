@@ -68,6 +68,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import Command from '@lucide/svelte/icons/command';
 	import { tick, type ComponentProps } from 'svelte';
+	import { Settings } from '@lucide/svelte';
 
 	let { ref = $bindable(null), ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();
 
@@ -120,7 +121,7 @@
 		<Sidebar.Group>
 			<Sidebar.GroupContent class="px-1.5 md:px-0 touch-pan-y">
 				<Sidebar.Menu
-					class={`grid flex-1 transition-all duration-300 ease-in-out ${sidebar.open ? 'mt-9 gap-y-10' : 'gap-y-4'}`}
+					class={`grid flex-1 transition-all duration-300 ease-in-out gap-y-4 ${sidebar.open ? 'mt-9' : ''}`}
 				>
 					{#each data.navMain as item (item.title)}
 						<Sidebar.MenuItem>
@@ -131,7 +132,7 @@
 									goto(item.url);
 								}}
 								isActive={activeItem.title === item.title}
-								class={`px-2.5 transition-all duration-300 ease-in-out md:h-24 md:px-2
+								class={`px-2.5 transition-all duration-300 ease-in-out md:h-16 md:px-2
 								${activeItem.title === item.title ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
 								style={`${activeItem.title === item.title ? 'color: var(--color-primary);' : ''}`}
 							>
@@ -147,7 +148,7 @@
 											: 'flex h-full w-full items-center'
 									}`}
 								>
-									<item.icon size={sidebar.open ? 64 : 24} />
+									<item.icon size={sidebar.open ? 32 : 24} />
 									{#if sidebar.open}
 										{#if showTitles}
 											<span class="text-center text-sm">{item.title}</span>

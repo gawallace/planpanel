@@ -1,4 +1,6 @@
+import { getWeatherUrl } from '$lib/api/urls';
 import { json } from '@sveltejs/kit';
+import { get } from 'http';
 
 export async function GET({ url }) {
 	const lat = url.searchParams.get('lat');
@@ -12,11 +14,18 @@ export async function GET({ url }) {
 		return new Response('Missing parameters', { status: 400 });
 	}
 
-	const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}&lang=${lang}`;
+	const apiUrl = getWeatherUrl(
+		parseFloat(lat),
+		parseFloat(lon),
+		apiKey,	
+		units,
+		lang
+		);
 
 	const res = await fetch(apiUrl);
 	if (!res.ok) {
 		const err = await res.text();
+		console.error('Error fetching weather data:', err);
 		return new Response(err, { status: res.status });
 	}
 
