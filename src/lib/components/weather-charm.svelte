@@ -3,7 +3,7 @@
 	import { Weather } from '$lib/state';
 	import { Button } from '$lib/components/ui/button';
 
-	let interval: ReturnType<typeof setInterval> | null = null;
+/* 	let interval: ReturnType<typeof setInterval> | null = null;
 	
 	$effect(() => {
 		Weather.refresh();
@@ -14,7 +14,7 @@
 				if (interval) clearInterval(interval);
 			});
 		}
-	});
+	}); */
 </script>
 
 {#if Weather.result}

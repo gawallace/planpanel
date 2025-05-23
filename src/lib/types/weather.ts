@@ -1,3 +1,10 @@
+export interface BaseWeatherParams {
+  lat: number;
+  lon: number;
+  units?: string;
+  lang?: string;
+}
+
 export interface WeatherResponse {
   lat: number;
   lon: number;
@@ -114,4 +121,13 @@ export interface WeatherAlert {
   end: number;
   description: string;
   tags: string[];
+}
+
+export interface WeatherOverview {
+  lat: number;
+  lon: number;  
+  tz: string;
+  date: string;
+  units: string;
+  weather_overview: string;
 }

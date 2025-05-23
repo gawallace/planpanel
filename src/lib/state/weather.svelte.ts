@@ -1,16 +1,19 @@
 
-	import { getCurrentWeather } from '$lib/api/weather';
-	import type { WeatherResponse } from '$lib/types/weather';
+	import { browser } from '$app/environment';
+import { getCurrentWeather, getWeatherOverview } from '$lib/api/weather';
+	import type { WeatherOverview, WeatherResponse } from '$lib/types/weather';
 
 	export const weatherState = $state<{
 		result: { name: string; temp: number; conditions: string; icon: string } | null;
 		full: WeatherResponse | null;
+		overview: WeatherOverview | null;
 		loading: boolean;
 		error: string;
 		refresh: () => void;
 	}>({
 		result: null,
 		full: null,
+		overview: null,
 		loading: false,
 		error: '',
 		refresh: () => getWeather()
@@ -29,8 +32,15 @@
 
 		navigator.geolocation.getCurrentPosition(
 			async ({ coords }) => {
+				const baseParams = {
+					lat: coords.latitude,
+					lon: coords.longitude,
+					units: 'imperial',
+					lang: 'en'
+				}
+
 				try {
-					const weather = await getCurrentWeather(coords.latitude, coords.longitude, "imperial", "en");
+					const weather = await getCurrentWeather(baseParams);
 					weatherState.result = {
 						name: "Monticello",
 						temp: weather.current.temp,
@@ -38,6 +48,8 @@
 						icon: weather.current.weather[0].icon
 					};
 					weatherState.full = weather;
+
+					weatherState.overview = await getWeatherOverview(baseParams);
 				} catch {
 					weatherState.error = 'Failed to fetch weather.';
 				} finally {
@@ -51,4 +63,16 @@
 		);
 	}
 
+if (browser) {
+	getWeather();
 
+	// Auto-refresh every 10 minutes
+	const interval = setInterval(getWeather, 10 * 60 * 1000);
+
+	// Cleanup in HMR
+	if (import.meta.hot) {
+		import.meta.hot.dispose(() => {
+			clearInterval(interval);
+		});
+	}
+}

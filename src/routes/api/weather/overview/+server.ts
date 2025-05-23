@@ -19,6 +19,7 @@ export async function GET({ url }) {
 		apiKey,	
 		units,
 		lang,
+		'overview'
 		);
 
 	const res = await fetch(apiUrl);
