@@ -121,7 +121,7 @@
 		<Sidebar.Group>
 			<Sidebar.GroupContent class="px-1.5 md:px-0 touch-pan-y">
 				<Sidebar.Menu
-					class={`grid flex-1 transition-all duration-300 ease-in-out gap-y-4 ${sidebar.open ? 'mt-9' : ''}`}
+					class={`grid flex-1 transition-all duration-300 ease-in-out gap-y-4 ${sidebar.open && 'mt-9'}`}
 				>
 					{#each data.navMain as item (item.title)}
 						<Sidebar.MenuItem>
@@ -134,7 +134,7 @@
 								isActive={activeItem.title === item.title}
 								class={`px-2.5 transition-all duration-300 ease-in-out md:h-16 md:px-2
 								${activeItem.title === item.title ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
-								style={`${activeItem.title === item.title ? 'color: var(--color-primary);' : ''}`}
+								style={`${activeItem.title === item.title && 'color: var(--color-primary);'}`}
 							>
 								{#snippet tooltipContent()}
 									{item.title}

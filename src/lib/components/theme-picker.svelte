@@ -8,7 +8,7 @@
 	}
 </script>
 
-<div class="flex items-center gap-2 text-sm">
+<div class="flex items-center gap-2 text-lg">
 	<label for="theme-picker" class="text-muted-foreground">Theme:</label>
 	<select
 		id="theme-picker"
