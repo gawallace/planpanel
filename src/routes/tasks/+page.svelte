@@ -4,6 +4,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import VirtualKeyboard from '$lib/components/virtual-keyboard.svelte';
 	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
@@ -12,6 +13,9 @@
 
 	let tasks = $state(data.tasks);
 	let loading = $state(true);
+
+	let showVirtualKeyboard = $state(false);
+	let taskTitle = $state('');
 
 	// Update tasks when `data` changes
 	$effect(() => {
@@ -30,6 +34,20 @@
 			}
 		});
 	}
+
+	function handleTaskAdded() {
+		if (showVirtualKeyboard) {
+			showVirtualKeyboard = false;
+		}
+			toast.success('Task added', {
+				description: `Your task ${taskTitle ? `"${taskTitle}"` : ""} was successfully added.`,
+				action: {
+					label: 'Undo',
+					onClick: () => console.info('Undo clicked')
+				}
+			});
+			taskTitle = '';
+	}
 </script>
 
 <main class="mx-auto flex max-w-3xl flex-1 flex-col gap-6 p-6">
@@ -39,9 +57,31 @@
 		<p>Tasks are a way to keep track of things you need to do.</p>
 	</section>
 	<form method="POST" use:enhance>
-		<Input type="text" name="title" placeholder="Task name" required class="flex-grow" />
-		<Button type="submit" variant="default" size="sm" formaction="?/addTask">Add Task</Button>
+		<Input
+			type="text"
+			name="title"
+			placeholder="Task name"
+			required
+			class="flex-grow"
+			value={taskTitle}
+			ontouchstart={() => {
+				showVirtualKeyboard = true;
+			}}
+		/>
+		<Button
+			type="submit"
+			variant="default"
+			size="sm"
+			formaction="?/addTask"
+			onclick={handleTaskAdded}
+		>
+			Add Task
+		</Button>
 	</form>
+	<!-- Virtual Keyboard, shown only when active -->
+	{#if showVirtualKeyboard}
+		<VirtualKeyboard bind:value={taskTitle} onInput={(val) => (taskTitle = val)} />
+	{/if}
 	<section class="flex flex-col gap-3">
 		{#if loading}
 			<!-- Skeleton Loading State -->
@@ -58,7 +98,6 @@
 		{:else}
 			<!-- Scrollable container with max height -->
 			<div class="max-h-80 overflow-y-auto rounded-md border">
-				
 				<ul class="divide-y">
 					{#each tasks as task (task.title)}
 						<li class="hover:bg-muted flex items-center justify-between px-4 py-2">
@@ -82,10 +121,7 @@
 									</AlertDialog.Header>
 									<AlertDialog.Footer>
 										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-										<form
-											method="POST"
-											use:enhance={taskRemovalToast}
-										>
+										<form method="POST" use:enhance={taskRemovalToast}>
 											<input type="hidden" name="id" value={task.id} />
 											<Button type="submit" formaction="?/removeTask" variant="destructive">
 												Remove
