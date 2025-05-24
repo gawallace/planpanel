@@ -75,7 +75,6 @@
 			}}
 		>
 			<WeatherWidget
-
 			></WeatherWidget>
 		</DraggableResizable>
 	</div>
