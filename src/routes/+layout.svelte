@@ -3,7 +3,7 @@
 	import ThemePicker from '$lib/components/theme-picker.svelte';
 	import AppSidebar from '$lib/components/app-sidebar.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import WeatherCharm from '$lib/components/weather-charm.svelte';
+	import WeatherCharm from '$lib/components/weather/weather-charm.svelte';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import DateTimeCharm from '$lib/components/date-time-charm.svelte';
 
